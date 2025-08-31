@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form thanh toán thử nghiệm</title>
+</head>
+<body>
+  <h2>Thanh toán (Dữ liệu giả lập)</h2>
+  <form id="paymentForm">
+    <label>Số thẻ (giả lập):</label><br>
+    <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456"><br><br>
+
+    <label>Ngày hết hạn:</label><br>
+    <input type="text" name="expiry" placeholder="MM/YY"><br><br>
+
+    <label>Mã bảo mật (CVV):</label><br>
+    <input type="text" name="cvv" placeholder="123"><br><br>
+
+    <button type="submit">Gửi</button>
+  </form>
+
+  <script>
+    document.getElementById("paymentForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      
+      const data = new FormData(this);
+      const payload = {
+        cardNumber: data.get("cardNumber"),
+        expiry: data.get("expiry"),
+        cvv: data.get("cvv")
+      };
+
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.text())
+      .then(data => alert("Gửi thành công (giả lập)"))
+      .catch(err => alert("Lỗi khi gửi"));
+    });
+  </script>
+</body>
+</html>
